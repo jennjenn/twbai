@@ -224,6 +224,16 @@ h3{
     line-height: 1.3em;
 }
 
+#share-the-awesome{
+    display: block;
+    padding: 0 10px 0 8px;
+    width: 800px;
+    margin: 0 auto 25px;
+    font-family: 'Amatic SC', sans-serif;
+    font-size: 3em;
+    line-height: 1.2em;
+}
+
 strong{
     font-weight:bold;
 }

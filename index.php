@@ -55,6 +55,10 @@ if(!$loginstate){
                 </div>
             </form>
             <div id='todays-goal'></div>
+            <div id='share-the-awesome' style="display:none">
+                <?php $goalencode = urlencode("I said today would be awesome if $goaltext... and it was! What would make your day awesome? http://todaywouldbeawesomeif.com #twbai"); ?>
+             <div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=$goalencode' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>
+             </div>
             <div class="result"></div>
             <?php
     }else{ 
@@ -72,6 +76,10 @@ if(!$loginstate){
                     <div id='awesome-no' class="button">No :(</div>
                 </div>
             </div>
+            <div id='share-the-awesome' class="clearfix">
+                <?php $goalencode = urlencode("I said today would be awesome if $goaltext... and it was! What would make your day awesome? http://todaywouldbeawesomeif.com #twbai"); ?>
+             <div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=$goalencode' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>
+             </div>
             <?php
     }else{
         $status = getTodayStatus($uid, $gid);
@@ -114,7 +122,7 @@ $('#goal-create').submit(function(e){
         if(msg.success){
             $('#goal-create').hide();
             $('#todays-goal').html(msg.goal);
-
+            $('#share-the-awesome').fadeIn();
         }else{
             $.each(msg.errors, function(type, errors) {
                 $(".result").html("<p>" + errors + "</p>");
