@@ -133,9 +133,9 @@ h2{
 }
 
 #todays-goal-list li{
-	margin-bottom:20px;
-	font-size:5em;
-	color:#333;
+	margin-top: 50px;
+	font-size: 4.5em;
+	color: #333;
 }
 
 #awesome-prompt{
