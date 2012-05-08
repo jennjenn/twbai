@@ -4,7 +4,8 @@ header("Content-Type: application/json");
 
 // print_r($_POST);
 $uid = mysql_real_escape_string($_POST['uid']);
-$goal = mysql_real_escape_string($_POST['goal']);
+$goalraw = $_POST['goal'];
+$goal = mysql_real_escape_string($goalraw);
 
 $result = array();
 $errors = array();
@@ -59,7 +60,7 @@ if(!empty($errors)){
 		addGoal($gid,$uid);
 	}
 	$results['success'] = true;
-	$results['goal'] = $goal;
+	$results['goal'] = $goalraw;
 }
 
     echo json_encode($results);

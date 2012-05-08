@@ -51,8 +51,15 @@ function doneToday($uid){
 	}
 }
 
-function getGoalText($gid){
-	$q = mysql_query("SELECT * FROM goals WHERE gid = $gid");
+function myGoalToday($uid){
+	$q = mysql_query("SELECT * FROM daily_goals WHERE uid = $uid and DATE(goal_date) = DATE(NOW())");
+	$r = mysql_fetch_assoc($q);
+	$gid = $r['ugid'];
+	return $gid;
+}
+
+function getGoalText($ugid){
+	$q = mysql_query("SELECT * FROM goals NATURAL JOIN daily_goals WHERE ugid = $ugid");
 	$r = mysql_fetch_assoc($q);
 	$text = $r['goal'];
 	return $text;
@@ -68,18 +75,18 @@ function todayStatus($uid){
 	}
 }
 
-function getTodayStatus($uid, $gid){
-	$q = mysql_query("SELECT * FROM daily_goals WHERE uid = $uid AND gid = $gid AND DATE(goal_date) = DATE(NOW())");
+function getTodayStatus($uid){
+	$q = mysql_query("SELECT * FROM daily_goals WHERE uid = $uid AND DATE(goal_date) = DATE(NOW())");
 	$r = mysql_fetch_assoc($q);
 	$status = $r['completed'];
 	return $status;
 }
 
 function getAllTodaysAwesome(){
-	$q = mysql_query("SELECT * FROM daily_goals NATURAL JOIN goals WHERE DATE(goal_date) = DATE(NOW())");
+	$q = mysql_query("SELECT * FROM daily_goals NATURAL JOIN goals WHERE DATE(goal_date) = DATE(NOW()) ORDER BY goal_date DESC");
 	$goals = array();
 	while($r = mysql_fetch_assoc($q)){
-		$goals[] = array('uid' => $r['uid'], 'gid' => $r['gid'], 'goal' => $r['goal']);
+		$goals[] = array('uid' => $r['uid'], 'ugid' => $r['ugid'], 'goal' => $r['goal']);
 	}
 	return $goals;
 }

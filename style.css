@@ -2,7 +2,7 @@
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0}
 
 body{
-	font-family:"Helvetica", sans-serif;
+	font-family:Helvetica, Arial, sans-serif;
 }
 
 a{text-decoration:none;}
@@ -85,7 +85,7 @@ input#submit-goal{
 }
 
 #todays-goal{
-	width: 800px;
+	width: 950px;
 	margin: 0 auto;
 	font-family: 'Amatic SC', sans-serif;
 	font-size: 5em;
@@ -101,6 +101,32 @@ input#submit-goal{
 	font-size:3em;
 	border-radius:4px;
 	line-height:1.2em;
+}
+
+#todays-goals-all{
+	font-family: 'Amatic SC', sans-serif;
+	width:1000px;
+	margin:80px auto 20px;
+}
+
+h2{
+	font-size:4em;
+}
+
+#todays-goals-all h2{
+	margin:0 0 10px;
+	color:#542437;
+}
+
+#todays-goal-list li{
+	font-size: 2.8em;
+	margin-bottom: 10px;
+	color: #888;
+}
+
+#todays-goal li{
+	margin-bottom:20px;
+	font-size:1em;
 }
 
 #awesome-prompt{
@@ -162,3 +188,41 @@ input#submit-goal{
 	float: left;
 }
 .fb_button_xlarge .fb_button_text{font-size:0.8em;}
+
+#whats-this{
+    color: #888;
+    float: left;
+    margin: 0 0 0 5px;
+    font-size: 0.9em;
+}
+
+h3{
+    font-size: 0.8em;
+    text-transform: uppercase;
+    text-align: left;
+    margin-bottom: 3px;
+}
+
+#whats-this-popup{
+    display:block;
+    display:none;
+    z-index:999;
+    position:absolute;
+    top:20px;
+    left:5px;
+    background:#fff;
+    padding:10px;
+    border:1px solid #bbb;
+    width:400px;
+}
+
+#whats-this-popup p{
+    font-size: 0.755em;
+    margin-top: 1em;
+    text-align: left;
+    line-height: 1.3em;
+}
+
+strong{
+    font-weight:bold;
+}
