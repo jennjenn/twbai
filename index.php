@@ -1,266 +1,193 @@
 <?php
 require_once('initial.php');
-    $todaysgoal = myGoalToday($uid);
-    $goaltext = getGoalText($todaysgoal);
+require_once('header.php');
 ?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US"
-      xmlns:fb="https://www.facebook.com/2008/fbml">
-      <head prefix="og: http://ogp.me/ns# awesomeif: 
-                        http://ogp.me/ns/apps/awesomeif#">
-    <meta charset="utf-8" />
-    <meta property="fb:app_id" content="294829963933906" /> 
-     <meta property="og:type" content="website" /> 
-     <meta property="og:title" content="Today would be awesome if...<?php echo $goaltext;?>" /> 
-     <meta property="og:image" content="http://todaywouldbeawesomeif.com/imgs/if-icon.png" /> 
-     <meta property="og:description" content="" /> 
-     <meta property="og:url" content="http://todaywouldbeawesomeif.com">
-    <title>today would be awesome if...</title>
-    <!--[if IE]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!-- <link href='http://fonts.googleapis.com/css?family=Cabin:400,500,600,700,400italic,500italic,600italic,700italic|Cabin+Condensed:400,500,600,700' rel='stylesheet' type='text/css'> -->
-    <link href='http://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="/style.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-</head>
-<body>
-    <div id="header">
-        <div id='header-user'>
-            <div id='whats-this'>(what is this?)</div>
-            <div id='whats-this-popup'>
-                <h3>What is this, you say?</h3>
-                <p>"Today would be <span class="awesome">awesome</span> if..." is just a little experiment. Once a day, come here and tell us what would make your day awesome. At the end of the day you can come back and let us know whether or not your day turned out to be awesome. It's that simple.</p>
-                <p>Your awesomeness will be posted <strong>anonymously</strong>. We just use the Facebook connection to link you with your wish so you can update it at the end of the day. If you choose, you can post your awesomeness to Twitter or Facebook, but that's entirely up to you.</p>
-            </div>
-            <?php
-        if($loginstate){
-            echo("Hey there, <div id='user-name'>" . $fname . "!</div><div id='logout-prompt'>(<a href='".$fburl."'>log out</a>)</div>");
-        }else{
-            echo("<a href='$fburl'>sign in / sign up with facebook</a>");
-        }
-        ?>
-    </div>
-</div>
+
 <h1 id="masthead">today would be <span class="awesome">awesome</span> if&hellip;</h1>
 <?php
 if(!$loginstate){
-    //not logged in. show today's awesome.
-    $todaysawesome = getAllTodaysAwesome();
-    ?>
-    <ul id="todays-goal" class="todays-goal-list">
-        <?php foreach($todaysawesome as $awesome){ ?>	
-            <li><?php echo $awesome['goal']; ?></li>
-            <?php } ?>
-        </ul>
-        <div id="todays-awesome" class="clearfix"><span class="awesome-share">What would make your day awesome?</span> <div class="fb-login-button"><a class="fb_button fb_button_xlarge" href="<?php echo $fburl; ?>"><span class="fb_button_text">Log In with Facebook</span></a></div></div>
-        <?php
-    }else{
-        if(!doneToday($uid)){ ?>
-            <form id='goal-create' method="POST" action="/api/addgoal.php">
-                <div id="goal-input">
-                    <input type='hidden' name='uid' value="<?php echo $uid; ?>">
-                    <input type="text" id="goal" name="goal" maxlength='100' />
-                    <input type="submit" id="submit-goal" name="add_goal" value="let's do it" />
-                </div>
-            </form>
-            <div id='todays-goal'></div>
-            <div id='share-the-awesome' style="display:none">
-                <?php $goalencode = urlencode("I said today would be awesome if... $goaltext! What would make your day awesome? http://todaywouldbeawesomeif.com #twbai"); ?>
-             <div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=<?php echo $goalencode;?>' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>
-             </div>
-            <div class="result"></div>
-            <?php
-    }else{ 
+	//not logged in. ==============================================
 
-        $goaltext = getGoalText($todaysgoal);
-        ?>
-        <div id='todays-goal'><?php echo $goaltext; ?></div>
-        <?php
-        if(getTodayStatus($uid) == 0){
-            ?>
-            <div id='todays-awesome' class="clearfix">
-                So&hellip; was today awesome?
-                <div id='awesome-buttons'>
-                    <div id='awesome-yes' class="button">Yes!</div>
-                    <div id='awesome-no' class="button">No :(</div>
-                </div>
-            </div>
-            <div id='share-the-awesome' class="clearfix">
-                <?php $goalencode = urlencode("Today would be awesome if... $goaltext! What would make your day awesome? http://todaywouldbeawesomeif.com #twbai"); ?>
-             <div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=<?php echo $goalencode; ?>' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>
-             </div>
-            <?php
-    }else{
-        $status = getTodayStatus($uid, $gid);
-        if($status == 1){
-            $goalencode = urlencode("I said today would be awesome if $goaltext... and it was! What would make your day awesome? http://todaywouldbeawesomeif.com #twbai");
-            $string = "Today was <span class='awesome'>awesome</span>! Yay! <div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=$goalencode' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>";
-        }elseif($status == 2){
-            $string = "Today wasn't so awesome? No big! We can fix that tomorrow!";
-        }
-        ?>
-        <div id="todays-awesome" class="clearfix"><?php echo $string; ?></div>
-        <?php
-    }
-    $todaysawesome = getAllTodaysAwesome();
-    ?>
-    <div id="todays-goals-all">
-        <h2>Others have said today would be <span class="awesome">awesome</span> if&hellip;</h2>
-        <ul id="todays-goal-list">
-            <?php foreach($todaysawesome as $awesome){ ?>	
-                <li><?php echo $awesome['goal']; ?></li>
-                <?php } ?>
-            </ul>
-        </div>
-        <?php
+	//show today's awesome
+	require_once('modules/awesome-list.php');
+	?>
+	<div id="login-prompt" class="clearfix">
+		<span class="awesome-share">What would make your day awesome?</span> 
+		<div class="fb-login-button"><a class="fb_button fb_button_xlarge" href="<?php echo $fburl; ?>"><span class="fb_button_text">Log In with Facebook</span></a></div>
+	</div>
+
+	<?php
+}else{
+	//logged in ==============================================
+
+	// is there an active goal? 
+	if(!hasActiveGoal($uid)){
+		// NO active goal
+		require_once('modules/wish-input.php');
+		?>
+		<div id='no-active-goal'>
+			<div id='todays-goal'></div>
+			<?php
+		require_once('modules/awesome-update-prompt.php');
+		require_once('modules/share-the-awesome.php');	
+		?>
+		<div id="todays-goals-all">
+			<h2>Others have said today would be <span class="awesome">awesome</span> if&hellip;</h2>
+			<?php require_once('modules/awesome-list.php'); ?>
+		</div>
+	</div>
+	<?php
+}else{
+	// YES there's an active goal
+	$ugid = getActiveGoal($uid);
+	$goaltext = getGoalText($ugid);
+	?>
+	<div id='todays-goal'><?php echo $goaltext; ?></div>
+	<?php
+	if(getTodayStatus($uid) == 0){
+		// this goal hasn't been updated today
+		require_once('modules/awesome-update-prompt.php');
+		require_once('modules/share-the-awesome.php');
+		?>
+		<div id="no-active-goal">
+			<?php require_once('modules/wish-input.php'); ?>
+		</div>
+	<?php
+	}else{
+		// this goal was updated today.
+		$status = getTodayStatus($uid, $gid);
+		if($status == 1){
+			// completed!
+			$goalencode = urlencode("I said today would be awesome if $goaltext... and it was! What would make your day awesome? http://todaywouldbeawesomeif.com #twbai");
+			$string = "Today was <span class='awesome'>awesome</span>! Yay! <div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=$goalencode' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>";
+
+		}elseif($status == 2){
+			// not completed. boo.
+			$string = "Today wasn't so awesome? No big! We can fix that tomorrow!";
+		}
+	}
+
+	if(!doneToday($uid)){ ?>
+
+		<div id='share-the-awesome' style="display:none">
+			<?php $goalencode = urlencode("I said today would be awesome if... $goaltext! What would make your day awesome? http://todaywouldbeawesomeif.com #twbai"); ?>
+				<div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=<?php echo $goalencode;?>' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>
+			</div>
+			<div class="result"></div>
+			<?php
+	}else{ 
+		?>
+		<div id="todays-awesome" class="clearfix"><?php echo $string; ?></div>
+		<?php
+	}
+	?>
+	<div id="todays-goals-all">
+		<h2>Others have said today would be <span class="awesome">awesome</span> if&hellip;</h2>
+		<?php require_once('modules/awesome-list.php'); ?>
+	</div>
+	<?php
 }
 }
 ?>
-<div id="fb-root"></div>
+
 <script>
 $('#goal-create').submit(function(e){
-    e.preventDefault();
-    $(".result").empty();
-    $.ajax({
-        type: "POST",
-        url: "api/addgoal.php",
-        data: $(this).serialize(),
-        async: false,
-        dataType: "json",
-    }).done(function(msg){
-        if(msg.success){
-            $('#goal-create').hide();
-            $('#todays-goal').html(msg.goal);
-            $('#share-the-awesome').fadeIn();
-        }else{
-            $.each(msg.errors, function(type, errors) {
-                $(".result").html("<p>" + errors + "</p>");
-            });
-        }
-    });
+	e.preventDefault();
+	$(".result").empty();
+	$.ajax({
+		type: "POST",
+		url: "api/addgoal.php",
+		data: $(this).serialize(),
+		async: false,
+		dataType: "json",
+	}).done(function(msg){
+		if(msg.success){
+			$('#goal-create').hide();
+			$('#no-active-goal').fadeIn();
+			$('#todays-goal').html(msg.goal);
+			$('#share-the-awesome').fadeIn();
+			$('#todays-awesome').hide();
+		}else{
+			$.each(msg.errors, function(type, errors) {
+				$(".result").html("<p>" + errors + "</p>");
+			});
+		}
+	});
 });
 
 $('#awesome-yes').click(function(){
-    $.ajax({
-        type: "POST",
-        url: "api/updategoal.php",
-        data: {uid: <?php echo $uid; ?>, status: 1},
-        async: false,
-        dataType: "json",
-    }).done(function(msg){
-        if(msg.success){
-            $('#todays-awesome').empty();
-            $('#todays-awesome').html('nicely done!');
+	$.ajax({
+		type: "POST",
+		url: "api/updategoal.php",
+		data: {ugid: <?php echo $ugid; ?>, uid: <?php echo $uid; ?>, status: 1},
+		async: false,
+		dataType: "json",
+	}).done(function(msg){
+		if(msg.success){
+			$('#todays-awesome').empty();
+			$('#todays-goal').empty();
+			$('#share-the-awesome').hide();
+			$('#todays-awesome').html('nicely done!');
+			if(msg.newgoal){
+				$('#todays-awesome').append(' what about today?');
+				$('#no-active-goal').fadeIn();
+			}else{
+				$('#todays-awesome').append(' check back tomorrow to add a new goal!');
+			}
 
-        }else{
-            $.each(msg.errors, function(type, errors) {
-                $("#todays-awesome").html("<p>" + errors + "</p>");
-            });
-        }
-    });
+		}else{
+			$.each(msg.errors, function(type, errors) {
+				$("#todays-awesome").html("<p>" + errors + "</p>");
+			});
+		}
+	});
 });
 
 $('#awesome-no').click(function(){
-    $.ajax({
-        type: "POST",
-        url: "api/updategoal.php",
-        data: {uid: <?php echo $uid; ?>, status: 2},
-        async: false,
-        dataType: "json",
-    }).done(function(msg){
-        if(msg.success){
-            $('#todays-awesome').empty();
-            $('#todays-awesome').html('boo. sorry to hear your day was less than awesome.');
+	$.ajax({
+		type: "POST",
+		url: "api/updategoal.php",
+		data: {ugid: <?php echo $ugid; ?>, uid: <?php echo $uid; ?>, status: 2},
+		async: false,
+		dataType: "json",
+	}).done(function(msg){
+		if(msg.success){
+			$('#todays-awesome').empty();
+			$('#todays-awesome').html('boo. sorry to hear your day was less than awesome.');
 
-        }else{
-            $.each(msg.errors, function(type, errors) {
-                $("#todays-awesome").html("<p>" + errors + "</p>");
-            });
-        }
-    });
+		}else{
+			$.each(msg.errors, function(type, errors) {
+				$("#todays-awesome").html("<p>" + errors + "</p>");
+			});
+		}
+	});
 });
 </script>
 <script>
 $('#whats-this').click(function(){
-    $('#whats-this-popup').slideToggle(); 
+	$('#whats-this-popup').slideToggle(); 
 });
 </script>
-<script>
-window.fbAsyncInit = function() {
-    FB.init({
-        appId      : '294829963933906', // App ID
-        // channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File
-        status     : true, // check login status
-        cookie     : true, // enable cookies to allow the server to access the session
-        xfbml      : true  // parse XFBML
-    });
+<script> 
+FB.init({appId: "294829963933906", status: true, cookie: true});
 
-    // Additional initialization code here
-};
+function postToFeed() {
 
-// Load the SDK Asynchronously
-(function(d){
-    var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-    if (d.getElementById(id)) {return;}
-    js = d.createElement('script'); js.id = id; js.async = true;
-    js.src = "//connect.facebook.net/en_US/all.js";
-    ref.parentNode.insertBefore(js, ref);
-    }(document));
-    </script>
-    <script> 
-    FB.init({appId: "294829963933906", status: true, cookie: true});
+	// calling the API ...
+	var obj = {
+		method: 'feed',
+		link: 'http://todaywouldbeawesomeif.com',
+		name: "Today would be awesome if <?php echo $goaltext; ?>",
+		caption: 'What would make your day awesome? Post your wish on Today would be awesome if...',
+		// description: 'What would make your day awesome?'
+	};
 
-    function postToFeed() {
+	function callback(response) {
+		document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+	}
 
-        // calling the API ...
-        var obj = {
-            method: 'feed',
-            link: 'http://todaywouldbeawesomeif.com',
-            name: "Today would be awesome if <?php echo $goaltext; ?>",
-            caption: 'What would make your day awesome? Post your wish on Today would be awesome if...',
-            // description: 'What would make your day awesome?'
-        };
+	FB.ui(obj, callback);
+}
 
-        function callback(response) {
-            document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
-        }
-
-        FB.ui(obj, callback);
-    }
-
-    </script>
-    <!-- Start of Woopra Code -->
-    <script type="text/javascript">
-    function woopraReady(tracker) {
-        tracker.setDomain('todaywouldbeawesomeif.com');
-        tracker.setIdleTimeout(300000);
-        tracker.track();
-        return false;
-    }
-    (function() {
-        var wsc = document.createElement('script');
-        wsc.src = document.location.protocol+'//static.woopra.com/js/woopra.js';
-        wsc.type = 'text/javascript';
-        wsc.async = true;
-        var ssc = document.getElementsByTagName('script')[0];
-        ssc.parentNode.insertBefore(wsc, ssc);
-    })();
-    </script>
-    <!-- End of Woopra Code -->
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-    <script type="text/javascript">
-
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-585912-20']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-
-        </script>
-    </body>
-    </html>
+</script>
+	<?php require_once('footer.php'); ?>

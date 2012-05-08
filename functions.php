@@ -37,12 +37,11 @@ if($loginstate){
 		$email = $fbinfo['email'];
 		$fname = $fbinfo['first_name'];
 	}
-
 }
 
 function doneToday($uid){
 	if(!empty($uid)){
-		$q = mysql_query("SELECT * FROM daily_goals WHERE uid = $uid and DATE(goal_date) = DATE(NOW())");
+		$q = mysql_query("SELECT * FROM daily_goals WHERE uid = $uid AND completed != 0 ORDER BY goal_date DESC LIMIT 1");
 		if(mysql_num_rows($q) > 0){
 			return true;
 		}else{
@@ -52,17 +51,21 @@ function doneToday($uid){
 }
 
 function myGoalToday($uid){
-	$q = mysql_query("SELECT * FROM daily_goals WHERE uid = $uid and DATE(goal_date) = DATE(NOW())");
-	$r = mysql_fetch_assoc($q);
-	$gid = $r['ugid'];
-	return $gid;
+	if(!empty($uid)){
+		$q = mysql_query("SELECT * FROM daily_goals WHERE uid = $uid and DATE(goal_date) = DATE(NOW())");
+		$r = mysql_fetch_assoc($q);
+		$gid = $r['ugid'];
+		return $gid;
+	}
 }
 
 function getGoalText($ugid){
-	$q = mysql_query("SELECT * FROM goals NATURAL JOIN daily_goals WHERE ugid = $ugid");
-	$r = mysql_fetch_assoc($q);
-	$text = $r['goal'];
-	return $text;
+	if(!empty($ugid)){
+		$q = mysql_query("SELECT * FROM goals NATURAL JOIN daily_goals WHERE ugid = $ugid");
+		$r = mysql_fetch_assoc($q);
+		$text = $r['goal'];
+		return $text;
+	}
 }
 
 function todayStatus($uid){
@@ -89,5 +92,22 @@ function getAllTodaysAwesome(){
 		$goals[] = array('uid' => $r['uid'], 'ugid' => $r['ugid'], 'goal' => $r['goal']);
 	}
 	return $goals;
+}
+
+function hasActiveGoal($uid){
+	$q = mysql_query("SELECT * FROM daily_goals WHERE uid = $uid AND (completed = 0 OR DATE(goal_date) = DATE(NOW())) ORDER BY goal_date DESC LIMIT 1");
+	if(mysql_num_rows($q) > 0){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+function getActiveGoal($uid){
+	$q = mysql_query("SELECT * FROM daily_goals WHERE uid = $uid AND (completed = 0 OR DATE(goal_date) = DATE(NOW())) ORDER BY goal_date DESC LIMIT 1");
+//	echo "SELECT * FROM daily_goals WHERE uid = $uid AND (completed = 0 OR DATE(goal_date) = DATE(NOW())) ORDER BY goal_date DESC LIMIT 1";
+	$r = mysql_fetch_assoc($q);
+	$ugid = $r['ugid'];
+	return $ugid;
 }
 ?>
