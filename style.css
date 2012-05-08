@@ -194,6 +194,7 @@ h2{
     float: left;
     margin: 0 0 0 5px;
     font-size: 0.9em;
+    cursor:pointer;
 }
 
 h3{
