@@ -1,10 +1,20 @@
 <?php
 require_once('initial.php');
+    $todaysgoal = myGoalToday($uid);
+    $goaltext = getGoalText($todaysgoal);
 ?>
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+      <head prefix="og: http://ogp.me/ns# awesomeif: 
+                        http://ogp.me/ns/apps/awesomeif#">
     <meta charset="utf-8" />
+    <meta property="fb:app_id" content="294829963933906" /> 
+     <meta property="og:type" content="website" /> 
+     <meta property="og:title" content="Today would be awesome if...<?php echo $goaltext;?>" /> 
+     <meta property="og:image" content="http://todaywouldbeawesomeif.com/imgs/if-icon.png" /> 
+     <meta property="og:description" content="" /> 
+     <meta property="og:url" content="http://todaywouldbeawesomeif.com">
     <title>today would be awesome if...</title>
     <!--[if IE]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -56,13 +66,13 @@ if(!$loginstate){
             </form>
             <div id='todays-goal'></div>
             <div id='share-the-awesome' style="display:none">
-                <?php $goalencode = urlencode("I said today would be awesome if $goaltext... and it was! What would make your day awesome? http://todaywouldbeawesomeif.com #twbai"); ?>
-             <div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=$goalencode' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>
+                <?php $goalencode = urlencode("I said today would be awesome if... $goaltext! What would make your day awesome? http://todaywouldbeawesomeif.com #twbai"); ?>
+             <div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=<?php echo $goalencode;?>' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>
              </div>
             <div class="result"></div>
             <?php
     }else{ 
-        $todaysgoal = myGoalToday($uid);
+
         $goaltext = getGoalText($todaysgoal);
         ?>
         <div id='todays-goal'><?php echo $goaltext; ?></div>
@@ -77,8 +87,8 @@ if(!$loginstate){
                 </div>
             </div>
             <div id='share-the-awesome' class="clearfix">
-                <?php $goalencode = urlencode("I said today would be awesome if $goaltext... and it was! What would make your day awesome? http://todaywouldbeawesomeif.com #twbai"); ?>
-             <div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=$goalencode' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>
+                <?php $goalencode = urlencode("Today would be awesome if... $goaltext! What would make your day awesome? http://todaywouldbeawesomeif.com #twbai"); ?>
+             <div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=<?php echo $goalencode; ?>' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>
              </div>
             <?php
     }else{
@@ -207,9 +217,8 @@ window.fbAsyncInit = function() {
         var obj = {
             method: 'feed',
             link: 'http://todaywouldbeawesomeif.com',
-            picture: 'http://fbrell.com/f8.jpg',
-            name: 'Today would be awesome if <?php echo $goaltext; ?>',
-            caption: 'What would make your day awesome? Post your wish on todaywouldbeawesomeif...',
+            name: "Today would be awesome if <?php echo $goaltext; ?>",
+            caption: 'What would make your day awesome? Post your wish on Today would be awesome if...',
             // description: 'What would make your day awesome?'
         };
 
@@ -221,6 +230,24 @@ window.fbAsyncInit = function() {
     }
 
     </script>
+    <!-- Start of Woopra Code -->
+    <script type="text/javascript">
+    function woopraReady(tracker) {
+        tracker.setDomain('todaywouldbeawesomeif.com');
+        tracker.setIdleTimeout(300000);
+        tracker.track();
+        return false;
+    }
+    (function() {
+        var wsc = document.createElement('script');
+        wsc.src = document.location.protocol+'//static.woopra.com/js/woopra.js';
+        wsc.type = 'text/javascript';
+        wsc.async = true;
+        var ssc = document.getElementsByTagName('script')[0];
+        ssc.parentNode.insertBefore(wsc, ssc);
+    })();
+    </script>
+    <!-- End of Woopra Code -->
     <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
     <script type="text/javascript">
 
