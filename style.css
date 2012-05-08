@@ -83,3 +83,82 @@ input#submit-goal{
 	background: #D95B43;
 	color:#ECD078;
 }
+
+#todays-goal{
+	width: 800px;
+	margin: 0 auto;
+	font-family: 'Amatic SC', sans-serif;
+	font-size: 5em;
+	text-align: center;
+}
+
+#todays-awesome{
+	background:#F2F2F2;
+	padding:8px 10px;
+	width:800px;
+	margin:50px auto 25px;
+	font-family: 'Amatic SC', sans-serif;
+	font-size:3em;
+	border-radius:4px;
+	line-height:1.2em;
+}
+
+#awesome-prompt{
+	display:inline-block;
+	text-align:left;
+}
+
+#awesome-buttons{
+	float:right;
+	line-height:1em;
+}
+
+#awesome-buttons .button{
+	padding: 4px 10px;
+	border-radius: 4px;
+	margin-left:4px;
+}
+
+#awesome-yes{
+	display:inline-block;
+	background:#C02942;
+	color:#fff;
+	border:1px solid #941F32;
+}
+
+#awesome-yes:hover{
+	background:#941F32;
+	border:1px solid #C02942;
+}
+
+#awesome-no{
+	display:inline-block;
+	background:#ECD078;
+	border:1px solid #C9AE59;
+}
+
+#awesome-no:hover{
+	display:inline-block;
+	background:#C9AE59;
+	border:1px solid #ECD078;
+}
+
+.awesome-share{
+	font-size: 0.8em;
+	color: #666;
+	line-height: 1.1em;
+	float: left;
+	margin: 9px 8px 0 0;
+}
+
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { *zoom: 1; }
+
+#todays-awesome .awesome-share{font-size:0.9em; margin-left:40px;}
+.fb-login-button{
+	margin:-6px 0 0 10px;
+	display: inline-block;
+	float: left;
+}
+.fb_button_xlarge .fb_button_text{font-size:0.8em;}
