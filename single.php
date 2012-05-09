@@ -18,7 +18,7 @@ require_once('functions-single.php');
 	<h1 id="masthead">today would be <span class="awesome">awesome</span> if&hellip;</h1>
 	<div id="todays-goal"><?php echo $singlegoal; ?></div>
 	<?php
-	$goalencode = urlencode("Today would be awesome if... $singlegoal! What would make your day awesome? http://twbai.me/if/$ugid #twbai");
+	$goalencode = urlencode("Today would be awesome if... $singlegoal! RT to support this wish! http://twbai.me/if/$ugid #twbai");
 	require_once('modules/share-the-awesome.php'); ?>
 	<div id="supporters">
 		<h3>we think this is awesome</h3>
@@ -28,10 +28,14 @@ require_once('functions-single.php');
 			$tweets = getTweets($ugid);
 			$tweets = $tweets['results'];
 			//print_r($tweets);
+			$tweeters = array();
 			foreach($tweets as $tw){
 				$avatar = $tw['profile_image_url'];
-				$user = $tw['from_user'];	
-				echo "<li><a href='http://twitter.com/$user'><img src='$avatar' alt='$user' /></a></li>";
+				$user = $tw['from_user'];
+				if(!in_array($user, $tweeters)){
+					$tweeters[] = $user;
+					echo "<li><a href='http://twitter.com/$user'><img src='$avatar' alt='$user' /></a></li>";
+				}
 			}
 			?>
 		</ul>

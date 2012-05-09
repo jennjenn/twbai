@@ -94,10 +94,12 @@ if($loginstate){
 		}
 		if(empty($location)){
 			$locID = $fbinfo['location']['id'];
-			$latlong = getFBLatLong($locID, $token);
-			$location = $fbinfo['location']['name'];		
-			setLocation($uid, $location);
-			setLatLong($uid, $latlong);
+			if(!empty($locID)){
+				$latlong = getFBLatLong($locID, $token);
+				$location = $fbinfo['location']['name'];		
+				setLocation($uid, $location);
+				setLatLong($uid, $latlong);				
+			}
 		}
 		$fname = $fbinfo['first_name'];
 	}
