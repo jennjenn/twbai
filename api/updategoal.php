@@ -30,11 +30,8 @@ if(!empty($errors)){
 	
 	//can this user add a new goal today?
 	$todaygoal = myGoalToday($uid);
-	if(!empty($todaygoal)){
-		$results['newgoal'] = false;
-	}else{
 		$results['newgoal'] = true;
-	}
+
 	
 	//move on.
 	$results['success'] = true;
