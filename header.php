@@ -14,7 +14,6 @@ http://ogp.me/ns/apps/awesomeif#">
 <meta property="og:title" content="Today would be awesome if...<?php echo $goaltext;?>" /> 
 <meta property="og:image" content="http://todaywouldbeawesomeif.com/imgs/if-icon.png" /> 
 <meta property="og:description" content="" /> 
-<meta property="og:url" content="http://todaywouldbeawesomeif.com">
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <title>today would be awesome if...</title>
 <!--[if IE]>

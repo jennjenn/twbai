@@ -14,6 +14,7 @@ RewriteRule "(^|/)(CVS|\.svn|\.git)/" - [F]
 # Allow versioned directories for assets - for cloudfront
 # RewriteRule ^assets/[\da-f]+/(.*\..*)$ $1 [L]
 
+RewriteRule ^if/([0-9]+)(/)*$ single.php?if=$1 [QSA]
 RewriteRule ^map(/)*$ map.php [NC]
 
 RewriteCond %{THE_REQUEST} \/index.php\ HTTP [NC]

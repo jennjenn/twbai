@@ -1,5 +1,4 @@
 <?php
-
 function isUser($fbid){
 	$q = mysql_query("SELECT * FROM users WHERE fbid = $fbid");
 	if(mysql_num_rows($q) > 0){
@@ -9,8 +8,8 @@ function isUser($fbid){
 	}
 }
 
-function createUser($fbid,$email,$fname,$lname,$timezone){
-	$q = mysql_query("INSERT INTO users(fbid, email, first_name, last_name, location, time_zone) VALUES('$fbid', '$email', '$fname', '$lname', '$location', '$timezone')");
+function createUser($fbid,$email,$fname,$lname,$location,$latlong,$timezone){
+	$q = mysql_query("INSERT INTO users(fbid, email, first_name, last_name, location, loc_lat_long, time_zone) VALUES('$fbid', '$email', '$fname', '$lname', '$location', '$latlong', '$timezone')");
 }
 
 function getUID($fbid){
@@ -83,7 +82,7 @@ if($loginstate){
 		$lname = $fbinfo['last_name'];
 		$timezone = $fbinfo['timezone'];
 		$location = $fbinfo['location']['name'];
-		createUser($fbid, $email, $fname, $lname, $loction, $timezone);
+		createUser($fbid, $email, $fname, $lname, $loction, $latlong, $timezone);
 		$uid = getUID($fbid);
 	}else{
 		$uid = getUID($fbid);
@@ -127,6 +126,7 @@ function myGoalToday($uid){
 function getGoalText($ugid){
 	if(!empty($ugid)){
 		$q = mysql_query("SELECT * FROM goals NATURAL JOIN daily_goals WHERE ugid = $ugid");
+			// echo "SELECT * FROM goals NATURAL JOIN daily_goals WHERE ugid = $ugid";
 		$r = mysql_fetch_assoc($q);
 		$text = $r['goal'];
 		return $text;

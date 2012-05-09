@@ -97,6 +97,10 @@ input#submit-goal{
 	text-align: center;
 }
 
+#todays-goal a{
+	color:#111;
+}
+
 #todays-awesome{
 	background:#F2F2F2;
 	padding:8px 10px;
@@ -138,9 +142,17 @@ h2{
 	margin-top:0;
 }
 
+#todays-goals-all #todays-goal-list a{
+	color: #888;
+}
+
 #todays-goal-list li{
 	margin-top: 50px;
-	font-size: 4.5em;
+	font-size: 4em;
+	color: #333;
+}
+
+#todays-goal-list a{
 	color: #333;
 }
 
@@ -214,44 +226,44 @@ h2{
 }
 
 h3{
-    font-size: 0.8em;
-    text-transform: uppercase;
-    text-align: left;
-    margin-bottom: 3px;
+	font-size: 0.8em;
+	text-transform: uppercase;
+	text-align: left;
+	margin-bottom: 3px;
 }
 
 #whats-this-popup{
-    display:block;
-    display:none;
-    z-index:999;
-    position:absolute;
-    top:20px;
-    left:5px;
-    background:#fff;
-    padding:10px;
-    border:1px solid #bbb;
-    width:400px;
+	display:block;
+	display:none;
+	z-index:999;
+	position:absolute;
+	top:20px;
+	left:5px;
+	background:#fff;
+	padding:10px;
+	border:1px solid #bbb;
+	width:400px;
 }
 
 #whats-this-popup p{
-    font-size: 0.755em;
-    margin-top: 1em;
-    text-align: left;
-    line-height: 1.3em;
+	font-size: 0.755em;
+	margin-top: 1em;
+	text-align: left;
+	line-height: 1.3em;
 }
 
 #share-the-awesome{
-    display: block;
-    padding: 0 10px 0 8px;
-    width: 800px;
-    margin: 0 auto 25px;
-    font-family: 'Amatic SC', sans-serif;
-    font-size: 3em;
-    line-height: 1.2em;
+	display: block;
+	padding: 0 10px 0 8px;
+	width: 800px;
+	margin: 0 auto 25px;
+	font-family: 'Amatic SC', sans-serif;
+	font-size: 3em;
+	line-height: 1.2em;
 }
 
 strong{
-    font-weight:bold;
+	font-weight:bold;
 }
 
 #login-prompt{
@@ -294,5 +306,45 @@ body { height: 100%; margin: 0; padding: 0 }
 }
 
 #footer a{
+	color:#888;
+}
+
+#single-if{
+	margin-bottom:200px;
+}
+
+#single-if #share-the-awesome{
+	margin-top:20px;
+}
+
+#supporters{
+	width:1000px;
+	margin:0 auto;
+}
+
+#supporters ul{
+	margin-top:10px;
+}
+
+#supporters li{
+	float:left;
+	margin: 0 3px 3px 0;
+}
+
+#supporters img{
+	border-radius:3px;
+}
+
+#single-if h3{
+	color:#542437;
+	font-size:1.8em;
+	font-family: 'Amatic SC', sans-serif;
+}
+
+#supporters p{
+	text-transform:uppercase;
+	font-size: 0.755em;
+	text-align: left;
+	line-height: 1.3em;
 	color:#888;
 }

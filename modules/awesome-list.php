@@ -5,7 +5,7 @@ $todaysawesome = getAllTodaysAwesome();
 	<?php
 foreach($todaysawesome as $awesome){
 	?>	
-	<li><?php echo $awesome['goal']; ?></li>
+	<li><a href="/if/<?php echo $awesome['ugid']; ?>"><?php echo $awesome['goal']; ?></a></li>
 	<?php
 }
 ?>
