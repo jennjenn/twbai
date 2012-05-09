@@ -40,7 +40,7 @@ if(empty($goal)){
 	array_push($errors["empty_goal"], "Whoops! Looks like you forgot to tell us what would make today awesome!");
 }
 
-if(doneToday($uid)){
+if(hasActiveGoal($uid)){
 	if(!isset($errors["done_today"])){ $errors["done_today"] = array(); }
 	array_push($errors["done_today"], "Looks like you've already told us what would make today awesome! Did you want tell us how today went?");
 }

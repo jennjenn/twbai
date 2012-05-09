@@ -1,0 +1,32 @@
+# Enable mod_rewrite, start rewrite engine 
+Options +FollowSymLinks 
+Options +Indexes
+RewriteEngine on 
+
+RewriteBase /
+
+# Allow for basic auth on dreamhost
+# RewriteRule .* - [E=REMOTE_AUTH_USER:%{HTTP:Authorization}]
+
+# Block source code viewing
+RewriteRule "(^|/)(CVS|\.svn|\.git)/" - [F]
+
+# Allow versioned directories for assets - for cloudfront
+# RewriteRule ^assets/[\da-f]+/(.*\..*)$ $1 [L]
+
+RewriteRule ^map(/)*$ map.php [NC]
+
+RewriteCond %{THE_REQUEST} \/index.php\ HTTP [NC]
+RewriteRule ^index.php$ / [R=301,L]
+
+
+
+
+# RewriteRule ^list.php?user=(^[A-z0-9]+)$ $1 [R=301]
+# 
+# Internally rewrite search engine friendly static url to dynamic filepath and query 
+# rewriteRule ^user/([^/]+)/?$ /list.php?user=$1 [L] 
+# 
+# Externally redirect client requests for old dynamic urls to equivalent new static urls 
+# rewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /list.php\?user=([^&]+)\ HTTP/ 
+# rewriteRule ^list.php$ http://101in365.com/%1? [R=301,L]

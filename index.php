@@ -1,8 +1,7 @@
 <?php
-require_once('initial.php');
 require_once('header.php');
 ?>
-
+<div id="fb-root"></div>
 <h1 id="masthead">today would be <span class="awesome">awesome</span> if&hellip;</h1>
 <?php
 if(!$loginstate){
@@ -52,48 +51,49 @@ if(!$loginstate){
 		<div id="no-active-goal">
 			<?php require_once('modules/wish-input.php'); ?>
 		</div>
-	<?php
-	}else{
-		// this goal was updated today.
-		$status = getTodayStatus($uid, $gid);
-		if($status == 1){
-			// completed!
-			$goalencode = urlencode("I said today would be awesome if $goaltext... and it was! What would make your day awesome? http://todaywouldbeawesomeif.com #twbai");
-			$string = "Today was <span class='awesome'>awesome</span>! Yay! <div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=$goalencode' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>";
-
-		}elseif($status == 2){
-			// not completed. boo.
-			$string = "Today wasn't so awesome? No big! We can fix that tomorrow!";
-		}
-	}
-
-	if(!doneToday($uid)){ ?>
-
-		<div id='share-the-awesome' style="display:none">
-			<?php $goalencode = urlencode("I said today would be awesome if... $goaltext! What would make your day awesome? http://todaywouldbeawesomeif.com #twbai"); ?>
-				<div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=<?php echo $goalencode;?>' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>
-			</div>
-			<div class="result"></div>
-			<?php
-	}else{ 
-		?>
-		<div id="todays-awesome" class="clearfix"><?php echo $string; ?></div>
 		<?php
+}else{
+	// this goal was updated today.
+	$status = getTodayStatus($uid, $gid);
+	if($status == 1){
+		// completed!
+		$goalencode = urlencode("I said today would be awesome if $goaltext... and it was! What would make your day awesome? http://todaywouldbeawesomeif.com #twbai");
+		$string = "Today was <span class='awesome'>awesome</span>! Yay! <div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=$goalencode' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>";
+
+	}elseif($status == 2){
+		// not completed. boo.
+		$string = "Today wasn't so awesome? No big! We can fix that tomorrow!";
 	}
-	?>
-	<div id="todays-goals-all">
-		<h2>Others have said today would be <span class="awesome">awesome</span> if&hellip;</h2>
-		<?php require_once('modules/awesome-list.php'); ?>
-	</div>
-	<?php
 }
+
+if(!doneToday($uid)){ ?>
+
+	<div id='share-the-awesome' style="display:none">
+		<?php $goalencode = urlencode("I said today would be awesome if... $goaltext! What would make your day awesome? http://todaywouldbeawesomeif.com #twbai"); ?>
+			<div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=<?php echo $goalencode;?>' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>
+		</div>
+		<div class="result"></div>
+		<?php
+}else{ 
+	?>
+	<!-- <div id="todays-awesome" class="clearfix"><?php //echo $string; ?></div> -->
+	<?php
 }
 ?>
-
+<div id="todays-goals-all">
+	<h2>Others have said today would be <span class="awesome">awesome</span> if&hellip;</h2>
+	<?php require_once('modules/awesome-list.php'); ?>
+</div>
+<?php
+}
+}
+$ugid = getActiveGoal($uid);
+if(empty($ugid)){$ugid = 0;}
+?>
 <script>
 $('#goal-create').submit(function(e){
 	e.preventDefault();
-	$(".result").empty();
+	//$(".result").empty();
 	$.ajax({
 		type: "POST",
 		url: "api/addgoal.php",
@@ -113,6 +113,7 @@ $('#goal-create').submit(function(e){
 			});
 		}
 	});
+	return false;
 });
 
 $('#awesome-yes').click(function(){
@@ -163,11 +164,7 @@ $('#awesome-no').click(function(){
 	});
 });
 </script>
-<script>
-$('#whats-this').click(function(){
-	$('#whats-this-popup').slideToggle(); 
-});
-</script>
+<script src='http://connect.facebook.net/en_US/all.js'></script>
 <script> 
 FB.init({appId: "294829963933906", status: true, cookie: true});
 
@@ -190,4 +187,5 @@ function postToFeed() {
 }
 
 </script>
-	<?php require_once('footer.php'); ?>
+
+<?php require_once('footer.php'); ?>
