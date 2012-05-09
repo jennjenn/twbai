@@ -106,6 +106,7 @@ $('#goal-create').submit(function(e){
 	}).done(function(msg){
 		if(msg.success){
 			$('#goal-create').hide();
+			$('.result').hide();
 			$('#no-active-goal').fadeIn();
 			$('#todays-goal').html(msg.goal);
 			$('#share-the-awesome').fadeIn();
@@ -157,8 +158,10 @@ $('#awesome-no').click(function(){
 	}).done(function(msg){
 		if(msg.success){
 			$('#todays-awesome').empty();
-			$('#todays-awesome').html('boo. sorry to hear your day was less than awesome.');
-
+			$('#todays-awesome').html("sorry to hear your day wasn't awesome. Try again?");
+			if(msg.newgoal){
+				$('#no-active-goal').fadeIn();
+			}
 		}else{
 			$.each(msg.errors, function(type, errors) {
 				$("#todays-awesome").html("<p>" + errors + "</p>");
