@@ -106,6 +106,7 @@ $('#goal-create').submit(function(e){
 	}).done(function(msg){
 		if(msg.success){
 			$('#goal-create').hide();
+			$('.result').hide();
 			$('#no-active-goal').fadeIn();
 			$('#todays-goal').html(msg.goal);
 			$('#share-the-awesome').fadeIn();
