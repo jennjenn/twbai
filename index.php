@@ -96,14 +96,14 @@ $('#goal-create').submit(function(e){
 		if(msg.success){
 			console.log(msg);
 			var ugid = msg.ugid;
-			$('#goal-create').hide();
-			$('.result').hide();
-			$('#no-active-goal').fadeIn();
-			$('#todays-goal').html(msg.goal);
-			$('#todays-goal').attr('ugid', ugid);			
-			$('#share-the-awesome').fadeIn();
-			$('#todays-awesome').show();
-			
+			// $('#goal-create').hide();
+			// $('.result').hide();
+			// $('#no-active-goal').fadeIn();
+			// $('#todays-goal').html(msg.goal);
+			// $('#todays-goal').attr('ugid', ugid);			
+			// $('#share-the-awesome').fadeIn();
+			// $('#todays-awesome').show();
+			window.location.href = "/if/" + ugid;
 		}else{
 			$.each(msg.errors, function(type, errors) {
 				$(".result").html("<p>" + errors + "</p>");

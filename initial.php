@@ -5,12 +5,12 @@ require_once('facebook-php-sdk/src/facebook.php');
 
 $facebook = new Facebook(array(
 	//DEV
-// 'appId'  => '346619492058435',
-// 'secret' => 'e60ab60e2421aaf31b85b3aa766a6101',
+'appId'  => '346619492058435',
+'secret' => 'e60ab60e2421aaf31b85b3aa766a6101',
 
 //PROD
-'appId'  => '294829963933906',
-	'secret' => '7337ff3d6e2b1c9999e638773fa51880',
+// 'appId'  => '294829963933906',
+// 	'secret' => '7337ff3d6e2b1c9999e638773fa51880',
 	));
 
 $fbid = $facebook->getUser();
