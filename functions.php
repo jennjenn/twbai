@@ -153,7 +153,7 @@ function getTodayStatus($uid){
 }
 
 function getAllTodaysAwesome(){
-	$q = mysql_query("SELECT * FROM daily_goals NATURAL JOIN goals WHERE DATE(goal_date) = DATE(NOW()) ORDER BY goal_date DESC");
+	$q = mysql_query("SELECT * FROM daily_goals NATURAL JOIN goals WHERE DATE(goal_date) = DATE(NOW()) GROUP BY gid ORDER BY goal_date DESC");
 	$goals = array();
 	while($r = mysql_fetch_assoc($q)){
 		$goals[] = array('uid' => $r['uid'], 'ugid' => $r['ugid'], 'goal' => $r['goal']);
