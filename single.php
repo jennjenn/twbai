@@ -18,7 +18,7 @@ require_once('functions-single.php');
 	<h1 id="masthead">today would be <span class="awesome">awesome</span> if&hellip;</h1>
 	<div id="todays-goal"><?php echo $singlegoal; ?></div>
 	<?php
-	$goalencode = urlencode("Today would be awesome if... $singlegoal! RT to support this wish! http://twbai.me/if/$ugid #twbai");
+	$goalencode = urlencode("Today would be awesome if... $singlegoal. RT to show your support! http://twbai.me/if/$ugid #twbai");
 	require_once('modules/share-the-awesome.php'); ?>
 	<div id="supporters">
 		<h3>we think this is awesome</h3>
