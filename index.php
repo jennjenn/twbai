@@ -152,7 +152,7 @@ $('#awesome-no').click(function(){
 		dataType: "json",
 	}).done(function(msg){
 		if(msg.success){
-			$('#todays-awesome').hide();			
+			$('#todays-awesome').hide();
 			$('#todays-goal').empty();
 			$('#share-the-awesome').hide();				
 			$('#goal-create').show();		
