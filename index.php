@@ -28,7 +28,8 @@ if(!$loginstate){
 			<div id='todays-goal'></div>
 			<?php
 		require_once('modules/awesome-update-prompt.php');
-		$goalencode = urlencode("Today would be awesome if... $goaltext! What would make your day awesome? http://twbai.me #twbai");
+		$ugid = getActiveGoal($uid);
+		$goalencode = urlencode("Today would be awesome if... $goaltext! What would make your day awesome? http://twbai.me/if/$ugid #twbai");
 		require_once('modules/share-the-awesome.php');	
 		?>
 		<div id="todays-goals-all">
@@ -47,7 +48,7 @@ if(!$loginstate){
 	if(getTodayStatus($uid) == 0){
 		// this goal hasn't been updated today
 		require_once('modules/awesome-update-prompt.php');
-		$goalencode = urlencode("Today would be awesome if... $goaltext! What would make your day awesome? http://twbai.me #twbai");
+		$goalencode = urlencode("Today would be awesome if... $goaltext! What would make your day awesome? http://twbai.me/if/$ugid #twbai");
 		require_once('modules/share-the-awesome.php');
 		?>
 		<div id="no-active-goal">
@@ -59,7 +60,7 @@ if(!$loginstate){
 	$status = getTodayStatus($uid, $gid);
 	if($status == 1){
 		// completed!
-		$goalencode = urlencode("I said today would be awesome if $goaltext... and it was! What would make your day awesome? http://twbai.me #twbai");
+		$goalencode = urlencode("I said today would be awesome if $goaltext... and it was! What would make your day awesome? http://twbai.me/if/$ugid #twbai");
 		$string = "Today was <span class='awesome'>awesome</span>! Yay! <div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=$goalencode' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>";
 
 	}elseif($status == 2){
@@ -69,10 +70,10 @@ if(!$loginstate){
 }
 
 if(!doneToday($uid)){
-	$goalencode = urlencode("Today would be awesome if... $goaltext! What would make your day awesome? http://twbai.me #twbai"); ?>
+	$goalencode = urlencode("Today would be awesome if... $goaltext! What would make your day awesome? http://twbai.me/if/$ugid #twbai"); ?>
 
 	<div id='share-the-awesome' style="display:none">
-		<?php $goalencode = urlencode("I said today would be awesome if... $goaltext! What would make your day awesome? http://twbai.me #twbai"); ?>
+		<?php $goalencode = urlencode("I said today would be awesome if... $goaltext! What would make your day awesome? http://twbai.me/if/$ugid #twbai"); ?>
 			<div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=<?php echo $goalencode;?>' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>
 		</div>
 		<div class="result"></div>
@@ -134,7 +135,7 @@ $('#awesome-yes').click(function(){
 			$('#share-the-awesome').hide();
 			$('#todays-awesome').html('nicely done!');
 			if(msg.newgoal){
-				$('#todays-awesome').append(' what about today?');
+				$('#todays-awesome').append(" what's next?");
 				$('#no-active-goal').fadeIn();
 			}else{
 				$('#todays-awesome').append(' check back tomorrow to add a new goal!');

@@ -9,7 +9,7 @@ a{text-decoration:none;}
 a:hover{text-decoration:underline;}
 
 #header{
-	background:#E0E0E0;
+	background:#EDEDED;
 	padding:2px 0;
 	font-size:0.9em;
 	color:#666;
@@ -17,13 +17,13 @@ a:hover{text-decoration:underline;}
 }
 
 #header a{
-	color:#53777A;
+	color:#53B0B8;
 }
 
 #header-user{
 	text-align: right;
 	min-width: 100px;
-	margin: 2px 5px 2px 0;
+	margin: 2px 8px 2px 0;
 	text-transform: uppercase;
 	font-size: 0.8em;
 	color: #888;
@@ -58,11 +58,11 @@ h1{
 h1#masthead{
 	text-align:center;
 	clear:both;
-	color:#53777A;
+	color:#53B0B8;
 }
 
 .awesome{
-	color:#C02942;
+	color:#DE1637;
 }
 
 #goal-input{
@@ -110,6 +110,7 @@ input#submit-goal{
 	font-size:3em;
 	border-radius:4px;
 	line-height:1.2em;
+	border:1px solid #bbb;
 }
 
 #todays-goals-all{
@@ -124,7 +125,7 @@ h2{
 
 #todays-goals-all h2{
 	margin:0 0 10px;
-	color:#542437;
+	color:#ED8139;
 }
 
 #todays-goal-list{
@@ -174,26 +175,27 @@ h2{
 
 #awesome-yes{
 	display:inline-block;
-	background:#C02942;
+	background:#53B0B8;
 	color:#fff;
-	border:1px solid #941F32;
+	border:1px solid #378D94;
 }
 
 #awesome-yes:hover{
-	background:#941F32;
-	border:1px solid #C02942;
+	background:#378D94;
+	border:1px solid #53B0B8;
 }
 
 #awesome-no{
 	display:inline-block;
-	background:#ECD078;
-	border:1px solid #C9AE59;
+	background:#ED8139;
+	border:1px solid #DB732E;
+	color:#fff;
 }
 
 #awesome-no:hover{
 	display:inline-block;
-	background:#C9AE59;
-	border:1px solid #ECD078;
+	background:#DB732E;
+	border:1px solid #ED8139;
 }
 
 .awesome-share{
@@ -289,7 +291,7 @@ body { height: 100%; margin: 0; padding: 0 }
 
 #title{
 	float: left;
-	margin-left: 5px;
+	margin-left: 8px;
 	font-family: 'Amatic SC', sans-serif;
 	font-size: 1.7em;
 	font-weight: bold;

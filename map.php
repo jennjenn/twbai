@@ -38,7 +38,7 @@ function initialize() {
 			$latlong = $marker['latlong'];
 			//$ugid = $marker['ugid'];
 			//$varname = "m$ugid";
-			$goal = $marker['goal'];
+			$goal = addslashes($marker['goal']);
 			if(!empty($latlong)){
 				echo "['$goal', $latlong],";
 				//echo "new google.maps.LatLng('$latlong')\r";
