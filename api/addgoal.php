@@ -27,6 +27,8 @@ function createGoal($goal, $uid){
 
 function addGoal($gid, $uid){
 	$q = mysql_query("INSERT INTO daily_goals(uid,gid) VALUES($uid, $gid)");
+	$ugid = mysql_insert_id();
+	return $ugid;
 }
 
 
@@ -53,14 +55,15 @@ if(!empty($errors)){
 	//everything passed. add the goal.
 	$gid = goalExists($goal);
 	if($gid > 0){
-		addGoal($gid, $uid);
+		$ugid = addGoal($gid, $uid);
 	}else{
 		createGoal($goal, $uid);
 		$gid = goalExists($goal);
-		addGoal($gid,$uid);
+		$ugid = addGoal($gid,$uid);
 	}
 	$results['success'] = true;
 	$results['goal'] = $goalraw;
+	$results['ugid'] = $ugid;
 }
 
     echo json_encode($results);

@@ -22,12 +22,15 @@ if(!$loginstate){
 	// is there an active goal? 
 	if(!hasActiveGoal($uid)){
 		// NO active goal
+		?>
+		<div class="result"></div>
+		<?php
 		require_once('modules/wish-input.php');
 		?>
 		<div id='no-active-goal'>
 			<div id='todays-goal'></div>
 			<?php
-		require_once('modules/awesome-update-prompt.php');
+		require('modules/awesome-update-prompt.php');
 		$ugid = getActiveGoal($uid);
 		$goalencode = urlencode("Today would be awesome if... $goaltext! What would make your day awesome? http://twbai.me/if/$ugid #twbai");
 		require_once('modules/share-the-awesome.php');	
@@ -43,9 +46,9 @@ if(!$loginstate){
 	$ugid = getActiveGoal($uid);
 	$goaltext = getGoalText($ugid);
 	?>
-	<div id='todays-goal'><a href="/if/<?php echo $ugid; ?>"><?php echo $goaltext; ?></a></div>
+	<div class="result"></div>
+	<div id='todays-goal' ugid="<?php echo $ugid; ?>"><a href="/if/<?php echo $ugid; ?>"><?php echo $goaltext; ?></a></div>
 	<?php
-	if(getTodayStatus($uid) == 0){
 		// this goal hasn't been updated today
 		require_once('modules/awesome-update-prompt.php');
 		$goalencode = urlencode("Today would be awesome if... $goaltext! What would make your day awesome? http://twbai.me/if/$ugid #twbai");
@@ -55,20 +58,6 @@ if(!$loginstate){
 			<?php require_once('modules/wish-input.php'); ?>
 		</div>
 		<?php
-}else{
-	// this goal was updated today.
-	$status = getTodayStatus($uid, $gid);
-	if($status == 1){
-		// completed!
-		$goalencode = urlencode("I said today would be awesome if $goaltext... and it was! What would make your day awesome? http://twbai.me/if/$ugid #twbai");
-		$string = "Today was <span class='awesome'>awesome</span>! Yay! <div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=$goalencode' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>";
-
-	}elseif($status == 2){
-		// not completed. boo.
-		$string = "Today wasn't so awesome? No big! We can fix that tomorrow!";
-	}
-}
-
 if(!doneToday($uid)){
 	$goalencode = urlencode("Today would be awesome if... $goaltext! What would make your day awesome? http://twbai.me/if/$ugid #twbai"); ?>
 
@@ -76,7 +65,6 @@ if(!doneToday($uid)){
 		<?php $goalencode = urlencode("I said today would be awesome if... $goaltext! What would make your day awesome? http://twbai.me/if/$ugid #twbai"); ?>
 			<div id='awesome-buttons' class='awesome-share'>Share the awesome: <a onclick='postToFeed(); return false;'><img src='/imgs/icon-facebook.png'></a> <a href='https://twitter.com/intent/tweet?button_hashtag=twbai&text=<?php echo $goalencode;?>' class='class=twitter-share-button' data-related='twbai' data-url='http://todaywouldbeawesomeif.com'><img src='/imgs/icon-twitter.png'></a></div>
 		</div>
-		<div class="result"></div>
 		<?php
 }else{ 
 	?>
@@ -106,12 +94,16 @@ $('#goal-create').submit(function(e){
 		dataType: "json",
 	}).done(function(msg){
 		if(msg.success){
+			console.log(msg);
+			var ugid = msg.ugid;
 			$('#goal-create').hide();
 			$('.result').hide();
 			$('#no-active-goal').fadeIn();
 			$('#todays-goal').html(msg.goal);
+			$('#todays-goal').attr('ugid', ugid);			
 			$('#share-the-awesome').fadeIn();
-			$('#todays-awesome').hide();
+			$('#todays-awesome').show();
+			
 		}else{
 			$.each(msg.errors, function(type, errors) {
 				$(".result").html("<p>" + errors + "</p>");
@@ -122,25 +114,26 @@ $('#goal-create').submit(function(e){
 });
 
 $('#awesome-yes').click(function(){
+	var ugid = $('#todays-goal').attr('ugid');
+	console.log(ugid);
 	$.ajax({
 		type: "POST",
 		url: "api/updategoal.php",
-		data: {ugid: <?php echo $ugid; ?>, uid: <?php echo $uid; ?>, status: 1},
+		data: {ugid: ugid, uid: <?php echo $uid; ?>, status: 1},
 		async: false,
 		dataType: "json",
 	}).done(function(msg){
 		if(msg.success){
-			$('#todays-awesome').empty();
+			$('#todays-awesome').hide();
 			$('#todays-goal').empty();
 			$('#share-the-awesome').hide();
-			$('#todays-awesome').html('nicely done!');
+			$('#goal-create').show();			
+			$('.result').html('nicely done!');
 			if(msg.newgoal){
-				$('#todays-awesome').append(" what's next?");
+				$('.result').append(" what's next?");
 				$('#no-active-goal').fadeIn();
-			}else{
-				$('#todays-awesome').append(' check back tomorrow to add a new goal!');
 			}
-
+			$('.result').fadeIn();
 		}else{
 			$.each(msg.errors, function(type, errors) {
 				$("#todays-awesome").html("<p>" + errors + "</p>");
@@ -150,16 +143,20 @@ $('#awesome-yes').click(function(){
 });
 
 $('#awesome-no').click(function(){
+	var ugid = $('#todays-goal').attr('ugid');
 	$.ajax({
 		type: "POST",
 		url: "api/updategoal.php",
-		data: {ugid: <?php echo $ugid; ?>, uid: <?php echo $uid; ?>, status: 2},
+		data: {ugid: ugid, uid: <?php echo $uid; ?>, status: 2},
 		async: false,
 		dataType: "json",
 	}).done(function(msg){
 		if(msg.success){
-			$('#todays-awesome').empty();
-			$('#todays-awesome').html("sorry to hear your day wasn't awesome. Try again?");
+			$('#todays-awesome').hide();			
+			$('#todays-goal').empty();
+			$('#share-the-awesome').hide();				
+			$('#goal-create').show();		
+			$('.result').html("sorry to hear your day wasn't awesome. Try again?").fadeIn();
 			if(msg.newgoal){
 				$('#no-active-goal').fadeIn();
 			}

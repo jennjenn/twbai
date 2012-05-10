@@ -162,7 +162,8 @@ function getAllTodaysAwesome(){
 }
 
 function hasActiveGoal($uid){
-	$q = mysql_query("SELECT * FROM daily_goals WHERE uid = $uid AND (completed = 0 OR DATE(goal_date) = DATE(NOW())) ORDER BY goal_date DESC LIMIT 1");
+	$q = mysql_query("SELECT * FROM daily_goals WHERE uid = $uid AND completed = 0 ORDER BY goal_date DESC LIMIT 1");
+		// echo "SELECT * FROM daily_goals WHERE uid = $uid AND completed = 0 ORDER BY goal_date DESC LIMIT 1";
 	if(mysql_num_rows($q) > 0){
 		return true;
 	}else{
@@ -172,8 +173,8 @@ function hasActiveGoal($uid){
 
 function getActiveGoal($uid){
 	if(!empty($uid)){
-		$q = mysql_query("SELECT * FROM daily_goals WHERE uid = $uid AND (completed = 0 OR DATE(goal_date) = DATE(NOW())) ORDER BY goal_date DESC LIMIT 1");
-		// echo "SELECT * FROM daily_goals WHERE uid = $uid AND (completed = 0 OR DATE(goal_date) = DATE(NOW())) ORDER BY goal_date DESC LIMIT 1";
+		$q = mysql_query("SELECT * FROM daily_goals WHERE uid = $uid AND completed = 0 ORDER BY goal_date DESC LIMIT 1");
+		// echo "SELECT * FROM daily_goals WHERE uid = $uid AND completed = 0 ORDER BY goal_date DESC LIMIT 1";
 		$r = mysql_fetch_assoc($q);
 		$ugid = $r['ugid'];
 		return $ugid;
